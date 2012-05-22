@@ -1,6 +1,6 @@
 Gem::Specification.new do |s| 
   s.name         = "blam_and_woot"
-  s.version      = "1.0.0"
+  s.version      = "1.0.2"
   s.author       = "Jeffrey Baird"
   s.email        = "jeff@jeffreyleebaird.com"
   s.homepage     = "http://www.jeffreyleebaird.com"

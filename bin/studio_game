@@ -5,27 +5,53 @@ require_relative '../lib/studio_game/player'
 require_relative '../lib/studio_game/clumsy_player'
 require_relative '../lib/studio_game/berserk_player'
 
-knuckleheads = StudioGame::Game.new("Knuckleheads")
-klutz = StudioGame::ClumsyPlayer.new("klutz",105,2)
-berserk = StudioGame::BerserkPlayer.new("berserk", 50)
+loop do
+  puts "do you want to start a new game (y/n)"
+  answer = gets.downcase.chomp
+  case answer
+    when 'y'
+      puts "What do you want to name your game?"
+      game_name = gets.to_s.chomp
+      @game = StudioGame::Game.new(game_name) 
+      break
+    when 'n'
+      break
+    else
+      puts "Please enter (y/n)"
+    end
+end
 
-default_player_file = File.join(File.dirname(__FILE__), 'players.csv')
-knuckleheads.load_players(ARGV.shift || default_player_file)
-knuckleheads.add_player(klutz)
-knuckleheads.add_player(berserk)
+player = []
 
+loop do
+  puts "enter the name of a player. To start playing type 'next'"
+  name = gets.chomp
+  name.to_s
+  i = 0
+  case name
+   when 'next'
+     break
+    else
+      player_name = name
+      player[i] = name
+      player_name = StudioGame::Player.new(player[i])
+      @game.add_player(player_name)
+      i+=1
+  end
+end
+        
 loop do
   puts "\nHow many game rounds do you want to play?"
   answer = gets.downcase.chomp
   case answer
   when /^\d+$/
-    knuckleheads.play(answer.to_i)
+    @game.play(answer.to_i)
   when 'quit','exit'
-    knuckleheads.print_stats
+    @game.print_stats
     break
   else
     puts "Please enter a number or 'quit'"
   end
 end
 
-knuckleheads.save_high_scores
+@game.save_high_scores
